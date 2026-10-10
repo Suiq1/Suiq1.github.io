@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "api/reply.js": {
-      "maxDuration": 30
-    }
-  }
-}
