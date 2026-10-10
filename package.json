@@ -1,0 +1,12 @@
+{
+  "name": "meteor-wish-qwen-proxy",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Meteor shower page with a small Qwen API proxy",
+  "scripts": {
+    "start": "node server.cjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
