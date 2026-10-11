@@ -1,0 +1,296 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    position: relative;
+    isolation: isolate;
+    background: #020716;
+    font-family: "Space Grotesk", "Segoe UI", sans-serif;
+}
+
+body::before {
+    position: fixed;
+    z-index: 0;
+    inset: -14%;
+    content: "";
+    background: url(./galaxy-bg.jpeg) no-repeat center center;
+    background-size: cover;
+    animation: galaxy-drift 24s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+body::after {
+    position: fixed;
+    z-index: 0;
+    inset: -14%;
+    content: "";
+    background: url(./galaxy-bg.jpeg) no-repeat center center;
+    background-size: cover;
+    opacity: 0.14;
+    mix-blend-mode: screen;
+    filter: blur(0.4px) brightness(1.18);
+    animation: galaxy-parallax 31s ease-in-out infinite alternate;
+    will-change: transform;
+    pointer-events: none;
+}
+
+@keyframes galaxy-drift {
+    from {
+        transform: scale(1.06) translate3d(-3.5%, -2.5%, 0);
+    }
+
+    to {
+        transform: scale(1.18) translate3d(3.5%, 2.5%, 0);
+    }
+}
+
+@keyframes galaxy-parallax {
+    from {
+        transform: scale(1.12) translate3d(2.5%, -2%, 0) rotate(-0.25deg);
+    }
+
+    to {
+        transform: scale(1.24) translate3d(-2.5%, 2%, 0) rotate(0.25deg);
+    }
+}
+
+#comet-canvas {
+    position: fixed;
+    z-index: 1;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    display: block;
+}
+
+#qa-box {
+    position: fixed;
+    z-index: 2;
+    left: 50%;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    width: min(680px, calc(100vw - 32px));
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    max-height: min(64vh, 590px);
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid rgba(220, 236, 255, 0.2);
+    border-radius: 14px;
+    background: rgba(12, 18, 30, 0.62);
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.46), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px) saturate(120%);
+}
+
+#chat-history {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    max-height: min(48vh, 410px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 4px 4px 2px;
+    scrollbar-color: rgba(175, 215, 255, 0.45) transparent;
+    scrollbar-width: thin;
+}
+
+.message-row {
+    display: flex;
+    width: 100%;
+}
+
+.message-row.user {
+    justify-content: flex-end;
+}
+
+.message-bubble {
+    max-width: min(82%, 520px);
+    padding: 9px 12px;
+    border: 1px solid rgba(214, 236, 255, 0.14);
+    border-radius: 12px;
+    color: #eaf4ff;
+    font-size: 13px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.message-row.assistant .message-bubble {
+    background: rgba(27, 42, 61, 0.84);
+    border-top-left-radius: 4px;
+}
+
+.message-row.user .message-bubble {
+    background: rgba(106, 177, 235, 0.94);
+    border-color: rgba(222, 243, 255, 0.58);
+    border-top-right-radius: 4px;
+    color: #061523;
+}
+
+.message-row.typing .message-bubble {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 18px;
+}
+
+.typing-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #cceaff;
+    animation: typing-pulse 1s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 140ms;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 280ms;
+}
+
+@keyframes typing-pulse {
+    0%, 60%, 100% {
+        opacity: 0.35;
+        transform: translateY(0);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translateY(-2px);
+    }
+}
+
+#chat-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+#question-input {
+    flex: 1 1 260px;
+    min-width: 0;
+    height: 46px;
+    box-sizing: border-box;
+    padding: 0 16px;
+    border: 1px solid rgba(220, 236, 255, 0.24);
+    border-radius: 9px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.065);
+    color: #f2f7ff;
+    font: inherit;
+    font-size: 14px;
+    transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+#question-input::placeholder {
+    color: rgba(224, 235, 255, 0.58);
+}
+
+#question-input:focus {
+    border-color: rgba(171, 217, 255, 0.75);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(126, 194, 255, 0.12);
+}
+
+#reply-button {
+    flex: 0 0 auto;
+    height: 46px;
+    min-width: 76px;
+    padding: 0 22px;
+    border: 1px solid rgba(220, 241, 255, 0.75);
+    border-radius: 9px;
+    background: rgba(143, 203, 255, 0.94);
+    color: #071522;
+    cursor: pointer;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 5px 14px rgba(66, 153, 226, 0.22);
+    transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+#reply-button:hover {
+    background: #b4ddff;
+    box-shadow: 0 7px 18px rgba(66, 153, 226, 0.3);
+}
+
+#reply-button:disabled {
+    cursor: wait;
+    opacity: 0.68;
+}
+
+#reply-button:active {
+    transform: translateY(1px);
+}
+
+@media (max-width: 520px) {
+    #qa-box {
+        bottom: max(12px, env(safe-area-inset-bottom));
+        width: calc(100vw - 24px);
+        padding: 10px;
+        gap: 9px;
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - 24px);
+    }
+
+    #chat-history {
+        max-height: min(48vh, 340px);
+    }
+
+    #question-input {
+        flex-basis: 0;
+        height: 42px;
+        font-size: 13px;
+    }
+
+    #reply-button {
+        height: 42px;
+        padding: 0 17px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 360px) {
+    #qa-box {
+        gap: 8px;
+    }
+
+    #chat-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    #question-input,
+    #reply-button {
+        flex-basis: auto;
+        width: 100%;
+    }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+    #qa-box {
+        bottom: 8px;
+        max-height: calc(100vh - 16px);
+    }
+
+    #chat-history {
+        max-height: 34vh;
+    }
+}

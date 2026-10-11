@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流星雨许愿</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="comet-canvas"></canvas>
+    <div id="qa-box" aria-label="流星雨许愿对话">
+        <div id="chat-history" role="log" aria-live="polite" aria-relevant="additions"></div>
+        <form id="chat-form" autocomplete="off">
+            <input
+                id="question-input"
+                type="text"
+                maxlength="120"
+                placeholder="许下您的愿望..."
+                aria-label="问题或愿望"
+            >
+            <button id="reply-button" type="submit">许愿</button>
+        </form>
+    </div>
+
+    <script src="api-config.js"></script>
+    <script src="comet.js"></script>
+</body>
+</html>
